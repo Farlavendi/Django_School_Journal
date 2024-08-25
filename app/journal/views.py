@@ -1,7 +1,11 @@
 from django.shortcuts import render
+from rest_framework import generics
+from rest_framework.views import APIView
 
-from django.http import HttpResponse
+from .models import Class, Student, Teacher
+from .serializers import StudentSerializer
 
 
-def index(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
+class StudentsAPIView(generics.ListAPIView):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
