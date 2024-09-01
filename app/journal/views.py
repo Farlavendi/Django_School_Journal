@@ -5,7 +5,6 @@ from .serializers import StudentSerializer, ClassSerializer
 
 
 class StudentsViewSet(ModelViewSet):
-    queryset = Student.objects.all()
     serializer_class = StudentSerializer
 
     def get_queryset(self):
@@ -16,6 +15,8 @@ class StudentsViewSet(ModelViewSet):
 
 
 class ClassViewSet(ModelViewSet):
+    serializer_class = ClassSerializer
+
     def get_queryset(self):
         pk = self.kwargs.get('pk')
         if not pk:
@@ -24,6 +25,11 @@ class ClassViewSet(ModelViewSet):
             Teacher.objects.filter(_class=pk).values_list('name'),
             Student.objects.filter(_class=pk).values_list('name'),
         )
-        return Class.objects.get(pk=pk)
+        return Class.objects.filter(pk=pk)
 
-    serializer_class = ClassSerializer
+#
+# class TeacherViewSet(ModelViewSet):
+#     def get_queryset(self):
+#         pk = self.kwargs.get('pk')
+#         if not pk:
+#             return Teacher.objects.all()
