@@ -1,6 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
 
-from .models import Class, Student, Teacher
+from .models import Class, Student
 from .serializers import StudentSerializer, ClassSerializer
 
 
@@ -21,15 +21,4 @@ class ClassViewSet(ModelViewSet):
         pk = self.kwargs.get('pk')
         if not pk:
             return Class.objects.all()
-        print(
-            Teacher.objects.filter(_class=pk).values_list('name'),
-            Student.objects.filter(_class=pk).values_list('name'),
-        )
         return Class.objects.filter(pk=pk)
-
-#
-# class TeacherViewSet(ModelViewSet):
-#     def get_queryset(self):
-#         pk = self.kwargs.get('pk')
-#         if not pk:
-#             return Teacher.objects.all()

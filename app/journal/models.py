@@ -7,7 +7,7 @@ class Class(models.Model):
 
 class Student(models.Model):
     name = models.CharField(max_length=100)
-    _class = models.ForeignKey(Class, on_delete=models.CASCADE)
+    _class = models.ForeignKey(Class, on_delete=models.CASCADE, related_name='students')
 
     def __str__(self):
         return f'{self.name} is in {self._class} class.'

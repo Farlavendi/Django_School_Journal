@@ -21,4 +21,4 @@ class ClassSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Class
-        fields = ('number', 'teacher', 'students')
+        fields = ('number', 'students', 'teacher',)
