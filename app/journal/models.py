@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -26,6 +27,11 @@ class Student(models.Model):
         on_delete=models.CASCADE,
         related_name=_('students')
     )
+    user = models.ForeignKey(
+        verbose_name=_('User'),
+        to=User,
+        on_delete=models.CASCADE,
+    )
 
     class Meta:
         indexes = (
@@ -50,14 +56,20 @@ class Teacher(models.Model):
         on_delete=models.CASCADE
     )
 
+    user = models.ForeignKey(
+        verbose_name=_('User'),
+        to=User,
+        on_delete=models.CASCADE,
+    )
+
     class Meta:
-        class Meta:
-            indexes = (
-                models.Index(fields=('name',)),
-                models.Index(fields=('_class',))
-            )
+        indexes = (
+            models.Index(fields=('name',)),
+            models.Index(fields=('_class',))
+        )
         verbose_name = _('Teacher')
         verbose_name_plural = _('Teachers')
 
-    def __str__(self) -> str:
-        return f'{self.name} is a teacher in {self._class} class.'
+
+def __str__(self) -> str:
+    return f'{self.name} is a teacher in {self._class} class.'
