@@ -1,10 +1,18 @@
+from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.viewsets import ModelViewSet
-
+from permissions import IsAdminOrReadOnly
 from .models import Class, Student
 from .serializers import StudentSerializer, ClassSerializer
 
 
-class StudentsViewSet(ModelViewSet):
+class ProjectViewSet(ModelViewSet):
+    permission_classes = (
+        IsAdminOrReadOnly,
+    )
+    pagination_class = LimitOffsetPagination
+
+
+class StudentsViewSet(ProjectViewSet):
     serializer_class = StudentSerializer
 
     def get_queryset(self):
@@ -14,7 +22,7 @@ class StudentsViewSet(ModelViewSet):
         return Student.objects.select_related('_class')
 
 
-class ClassViewSet(ModelViewSet):
+class ClassViewSet(ProjectViewSet):
     serializer_class = ClassSerializer
 
     def get_queryset(self):
