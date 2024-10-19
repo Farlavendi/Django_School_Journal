@@ -1,28 +1,48 @@
+from rest_framework import generics
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.viewsets import ModelViewSet
-from permissions import IsAdminOrReadOnly
+from .permissions import IsAdminOrReadOnly, IsSuperUserOrReadOnly, IsOwnerOrReadOnly
 from .models import Class, Student
 from .serializers import StudentSerializer, ClassSerializer
 
 
-class ProjectViewSet(ModelViewSet):
+class IsAdminViewSet(ModelViewSet):
     permission_classes = (
         IsAdminOrReadOnly,
     )
     pagination_class = LimitOffsetPagination
 
 
-class StudentsViewSet(ProjectViewSet):
+class IsSuperUserViewSet(ModelViewSet):
+    permission_classes = (
+        IsSuperUserOrReadOnly,
+    )
+    pagination_class = LimitOffsetPagination
+
+
+class IsOwnerViewSet(ModelViewSet):
+    permission_classes = (
+        IsOwnerOrReadOnly,
+    )
+    pagination_class = LimitOffsetPagination
+
+
+class StudentsViewSet(ModelViewSet):
+    serializer_class = StudentSerializer
+    queryset = Student.objects.all()
+
+
+class StudentAPIUpdate(IsOwnerViewSet):
     serializer_class = StudentSerializer
 
     def get_queryset(self):
         pk = self.kwargs.get('pk')
         if not pk:
             return Student.objects.all()
-        return Student.objects.select_related('_class')
+        return Student.objects.select_related('_class').get(pk=pk)
 
 
-class ClassViewSet(ProjectViewSet):
+class ClassViewSet(ModelViewSet):
     serializer_class = ClassSerializer
 
     def get_queryset(self):
