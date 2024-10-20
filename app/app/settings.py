@@ -1,7 +1,7 @@
 import os
 import pathlib
 from pathlib import Path
-
+from rest_framework.permissions import IsAuthenticated
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'local')
@@ -111,3 +111,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [IsAuthenticated,]
+}
