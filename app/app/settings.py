@@ -1,7 +1,7 @@
 import os
 import pathlib
 from pathlib import Path
-from rest_framework.permissions import IsAuthenticated
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'local')
@@ -66,8 +66,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': os.getenv('DB_NAME'),
-        'USER': 'postgres', #os.getenv('DB_USER'),
-        'PASSWORD': 'postgres', #os.getenv('DB_PASSWORD'),
+        'USER': 'postgres',  # os.getenv('DB_USER'),
+        'PASSWORD': 'postgres',  # os.getenv('DB_PASSWORD'),
         'HOST': os.getenv('DB_HOST'),
         'PORT': os.getenv('DB_PORT'),
     }
@@ -113,5 +113,5 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [IsAuthenticated,]
+    'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticated'],
 }
