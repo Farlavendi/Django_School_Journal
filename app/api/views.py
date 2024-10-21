@@ -29,17 +29,13 @@ class IsOwnerViewSet(ModelViewSet):
 
 class StudentsViewSet(ModelViewSet):
     serializer_class = StudentSerializer
-    queryset = Student.objects.all()
-
-
-class StudentAPIUpdate(IsOwnerViewSet):
-    serializer_class = StudentSerializer
 
     def get_queryset(self):
         pk = self.kwargs.get('pk')
         if not pk:
             return Student.objects.all()
         return Student.objects.select_related('_class').get(pk=pk)
+
 
 
 class ClassViewSet(ModelViewSet):

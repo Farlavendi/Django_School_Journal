@@ -5,30 +5,26 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import routers, permissions
 
+import api
 from app import settings
-from journal.views import *
+from api.views import *
 
 schema_view = get_schema_view(
     openapi.Info(
         title="Journal API",
         default_version='v1',
-        description="Documentation for school online journal API",
+        description="Documentation for school online api API",
         terms_of_service="https://www.google.com/policies/terms/",
         contact=openapi.Contact(email="example@example.com"),
         license=openapi.License(name="BSD License"),
     ),
     public=True,
-    permission_classes=[permissions.AllowAny,]
+    permission_classes=[permissions.AllowAny, ]
 )
-
-router = routers.DefaultRouter()
-router.register(r'students', StudentsViewSet, basename='students')
-router.register(r'update_student', StudentAPIUpdate, basename='update_student')
-router.register(r'classes', ClassViewSet, basename='classes')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
+    path('api/', include('api.urls', namespace='api')),
 ]
 
 if settings.DEBUG:
@@ -45,4 +41,4 @@ if settings.DEBUG:
              schema_view.with_ui('redoc', cache_timeout=0),
              name='schema-redoc'
              ),
-    ] #+ static(document_root=settings.MEDIA_ROOT, prefix=settings.MEDIA_URL)
+    ]  # + static(document_root=settings.MEDIA_ROOT, prefix=settings.MEDIA_URL)

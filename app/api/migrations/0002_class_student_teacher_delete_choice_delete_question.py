@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('journal', '0001_initial'),
+        ('api', '0001_initial'),
     ]
 
     operations = [
@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=100)),
-                ('_class', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='journal.class')),
+                ('_class', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='api.class')),
             ],
         ),
         migrations.CreateModel(
@@ -31,7 +31,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=100)),
-                ('_class', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='journal.class')),
+                ('_class', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='api.class')),
             ],
         ),
         migrations.DeleteModel(

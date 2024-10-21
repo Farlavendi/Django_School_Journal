@@ -24,7 +24,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'drf_yasg',
     'rest_framework',
-    'journal.apps.JournalConfig',
+    'api.apps.JournalConfig',
 ]
 
 MIDDLEWARE = [
