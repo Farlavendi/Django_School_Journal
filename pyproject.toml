@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "django-journal"
+version = "0.1.0"
+description = ""
+authors = ["DenisBichuk <denisbichuk@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.13"
+djangorestframework = "^3.15.2"
+psycopg = "^3.2.3"
+psycopg-binary = "^3.2.3"
+setuptools = "^75.2.0"
+drf-yasg = "^1.21.8"
+python-dotenv = "^1.0.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
