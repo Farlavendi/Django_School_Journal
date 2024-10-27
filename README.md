@@ -1,5 +1,5 @@
 # Installation
-''' bash
+'''bash
 poetry install
 '''
 
