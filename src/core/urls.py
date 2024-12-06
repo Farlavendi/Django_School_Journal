@@ -4,7 +4,6 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
-from api.views import *
 from core import settings
 
 schema_view = get_schema_view(
@@ -23,6 +22,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls', namespace='api')),
+    path('api/session_auth/', include('rest_framework.urls')),
 ]
 
 if settings.DEBUG:
