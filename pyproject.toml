@@ -15,6 +15,7 @@ drf-yasg = "^1.21.8"
 python-dotenv = "^1.0.1"
 docker = "^7.1.0"
 pip = "^24.3"
+djangorestframework-simplejwt = "^5.3.1"
 
 
 [tool.poetry.group.dev.dependencies]
