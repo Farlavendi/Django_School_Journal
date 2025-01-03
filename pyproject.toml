@@ -2,24 +2,23 @@
 name = "django-journal"
 version = "0.1.0"
 description = ""
-authors = ["DenisBichuk <denisbichuk@gmail.com>"]
+authors = ["Denis Bichuk <denisbicuk18@gmail.com>"]
+license = "MIT"
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.13"
+django = "^5.1.4"
 djangorestframework = "^3.15.2"
+djangorestframework-simplejwt = "^5.3.1"
 psycopg = "^3.2.3"
 psycopg-binary = "^3.2.3"
-setuptools = "^75.2.0"
+docker = "^7.1.0"
+pip = "^24.3.1"
+setuptools = "^75.6.0"
 drf-yasg = "^1.21.8"
 python-dotenv = "^1.0.1"
-docker = "^7.1.0"
-pip = "^24.3"
-djangorestframework-simplejwt = "^5.3.1"
 
-
-[tool.poetry.group.dev.dependencies]
-flake8 = "^7.1.1"
 
 [build-system]
 requires = ["poetry-core"]

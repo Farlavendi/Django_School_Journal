@@ -2,12 +2,11 @@ import os
 import pathlib
 from datetime import timedelta
 from pathlib import Path
-
 from dotenv import load_dotenv
 
-load_dotenv()
-
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv()
 
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
@@ -16,6 +15,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
+    '0.0.0.0'
 ]
 
 # Application definition
@@ -29,9 +29,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'drf_yasg',
     'rest_framework',
-    'api.apps.ApiConfig',
-    'users.apps.UsersConfig',
-    'rest_framework_simplejwt'
+    'rest_framework_simplejwt',
+    'api',
+    'users'
 ]
 
 MIDDLEWARE = [

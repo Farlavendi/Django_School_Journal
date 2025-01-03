@@ -1,0 +1,25 @@
+services:
+  web:
+    build: .
+    container_name: django
+    volumes:
+      - .:/src
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+
+  db:
+    image: postgres:17.2-alpine
+    container_name: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    expose:
+      - 5432
+    env_file:
+      - .env
+
+volumes:
+  postgres_data:
