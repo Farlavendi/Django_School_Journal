@@ -1,4 +1,4 @@
-FROM python:3.13.1-slim
+FROM python:3.13
 
 WORKDIR /src
 
@@ -9,13 +9,11 @@ COPY requirements.txt ./
 #COPY poetry.lock ./
 #COPY pyproject.toml ./
 
-
-
 RUN pip install -r requirements.txt --no-cache-dir
 #RUN pip install poetry
 #RUN poetry install
-EXPOSE 5000
+EXPOSE 8000
 
 COPY . .
 
-CMD ["python", "src/manage.py", "runserver"]
+CMD ["python", "src/manage.py", "runserver", "0.0.0.0:8000"]
