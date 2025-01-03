@@ -10,40 +10,56 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('api', '0001_initial'),
+        ("api", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='student',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='User'),
+            model_name="student",
+            name="user",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="User",
+            ),
         ),
         migrations.AddField(
-            model_name='teacher',
-            name='_class',
-            field=models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='api.class', verbose_name='Class'),
+            model_name="teacher",
+            name="_class",
+            field=models.OneToOneField(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="api.class",
+                verbose_name="Class",
+            ),
         ),
         migrations.AddField(
-            model_name='teacher',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='User'),
+            model_name="teacher",
+            name="user",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="User",
+            ),
         ),
         migrations.AddIndex(
-            model_name='student',
-            index=models.Index(fields=['name'], name='api_student_name_0a5381_idx'),
+            model_name="student",
+            index=models.Index(fields=["name"], name="api_student_name_0a5381_idx"),
         ),
         migrations.AddIndex(
-            model_name='student',
-            index=models.Index(fields=['_class'], name='api_student__class__1e5234_idx'),
+            model_name="student",
+            index=models.Index(
+                fields=["_class"], name="api_student__class__1e5234_idx"
+            ),
         ),
         migrations.AddIndex(
-            model_name='teacher',
-            index=models.Index(fields=['name'], name='api_teacher_name_553bfc_idx'),
+            model_name="teacher",
+            index=models.Index(fields=["name"], name="api_teacher_name_553bfc_idx"),
         ),
         migrations.AddIndex(
-            model_name='teacher',
-            index=models.Index(fields=['_class'], name='api_teacher__class__c9e65e_idx'),
+            model_name="teacher",
+            index=models.Index(
+                fields=["_class"], name="api_teacher__class__c9e65e_idx"
+            ),
         ),
     ]

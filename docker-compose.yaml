@@ -1,25 +1,26 @@
 services:
-  web:
-    build: .
-    container_name: django
-    volumes:
-      - .:/src
-    ports:
-      - "8000:8000"
-    env_file:
-      - .env
-    depends_on:
-      - db
-
   db:
     image: postgres:17.2-alpine
     container_name: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+
+  web:
+    build: .
+    container_name: django
+    command: python src/manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/src
     ports:
-      - '5432:5432'
+      - "8000:8000"
     env_file:
-      - .env
+      - ./.env
+    depends_on:
+      - db
 
 volumes:
   postgres_data:

@@ -8,43 +8,82 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Teacher',
+            name="Teacher",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100, verbose_name="Teacher's name")),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(max_length=100, verbose_name="Teacher's name"),
+                ),
             ],
             options={
-                'verbose_name': 'Teacher',
-                'verbose_name_plural': 'Teachers',
+                "verbose_name": "Teacher",
+                "verbose_name_plural": "Teachers",
             },
         ),
         migrations.CreateModel(
-            name='Class',
+            name="Class",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('number', models.IntegerField(verbose_name='Class number')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("number", models.IntegerField(verbose_name="Class number")),
             ],
             options={
-                'verbose_name': 'Class',
-                'verbose_name_plural': 'Classes',
-                'indexes': [models.Index(fields=['number'], name='api_class_number_76f2fa_idx')],
+                "verbose_name": "Class",
+                "verbose_name_plural": "Classes",
+                "indexes": [
+                    models.Index(fields=["number"], name="api_class_number_76f2fa_idx")
+                ],
             },
         ),
         migrations.CreateModel(
-            name='Student',
+            name="Student",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100, verbose_name="Student's name")),
-                ('_class', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='students', to='api.class', verbose_name='Class')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(max_length=100, verbose_name="Student's name"),
+                ),
+                (
+                    "_class",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="students",
+                        to="api.class",
+                        verbose_name="Class",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Student',
-                'verbose_name_plural': 'Students',
+                "verbose_name": "Student",
+                "verbose_name_plural": "Students",
             },
         ),
     ]

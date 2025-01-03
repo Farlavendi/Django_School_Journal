@@ -1,19 +1,12 @@
-FROM python:3.13
+FROM python:3.13.1
 
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
 WORKDIR /src
 
-#RUN apt update
-#RUN python3 -m pip install --upgrade pip
-
-COPY requirements.txt ./
-#COPY poetry.lock ./
-#COPY pyproject.toml ./
-
-RUN pip install -r requirements.txt --no-cache-dir
-#RUN pip install poetry
-#RUN poetry install
-EXPOSE 8000
+# export dependencies from poetry first
+RUN pip install --upgrade pip
+COPY requirements.txt .
+RUN pip install -r requirements.txt
 
 COPY . .
-
-CMD ["python", "src/manage.py", "runserver", "0.0.0.0:8000"]
