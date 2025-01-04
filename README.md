@@ -1,9 +1,18 @@
-# Installation
-### Using poetry
-```bash
-poetry install
+# This is my pet project, a prototype of school journal app.
+
+---
+# Installation and local deploy
+Follow these simple steps to local deploy.
+* Clone the repo:
 ```
-### Using pip
-```bash
-pip install -r requirements.txt
+git@github.com:DenisBichuk/Django_School_Journal.git
+```
+* Run Docker app and docker-compose:
+```
+docker-compose up -d
+```
+
+* App is available. Follow the link to see docs
+```
+http://127.0.0.1:8000/swagger/
 ```
