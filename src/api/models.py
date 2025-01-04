@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from core import settings
+from src.core import settings
 
 User = settings.AUTH_USER_MODEL
 
