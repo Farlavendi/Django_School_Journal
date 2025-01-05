@@ -70,6 +70,7 @@ DATABASES = {
         "USER": os.getenv("DB_USER"),
         "PASSWORD": os.getenv("DB_PASSWORD"),
         "HOST": "db",  # Docker container name
+        # "HOST": "localhost",  # for local startup
         "PORT": os.getenv("DB_PORT"),
     }
 }

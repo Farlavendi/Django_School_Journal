@@ -11,6 +11,9 @@ git@github.com:DenisBichuk/Django_School_Journal.git
 ```
 docker-compose up -d
 ```
+```
+sudo docker-compose run web python manage.py migrate
+```
 
 * App is available. Follow the link to see docs
 ```

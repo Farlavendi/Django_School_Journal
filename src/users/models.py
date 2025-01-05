@@ -12,10 +12,10 @@ class User(AbstractUser):
         ("teacher", "Teacher"),
     )
 
-    user_type = models.CharField(max_length=20, choices=USER_TYPE_CHOICES)
+    user_type: str = models.CharField(max_length=20, choices=USER_TYPE_CHOICES)
 
-    email = models.EmailField(unique=True, verbose_name=_("Email address"))
-    username = models.CharField(
+    email: str = models.EmailField(unique=True, verbose_name=_("Email address"))
+    username: str = models.CharField(
         max_length=150,
         unique=True,
         help_text="Required. 150 characters or fewer. Letters, digits, and spaces only.",
