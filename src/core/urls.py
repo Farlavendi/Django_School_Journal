@@ -8,7 +8,7 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
-from src.core import settings
+from core import settings
 
 schema_view = get_schema_view(
     openapi.Info(
