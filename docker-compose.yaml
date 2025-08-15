@@ -1,29 +1,37 @@
 services:
-  db:
+  postgres-dev:
     image: postgres:17.2-alpine
-    container_name: postgres
+    container_name: postgres-dev
     restart: always
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=${DB_NAME}
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
     expose:
-      - 5432
+      - "5432:5432"
+    environment:
+      POSTGRES_DATA: /var/lib/postgresql/data
+    env_file:
+      - .env
+    volumes:
+      - postgres-dev-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "sh -c 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}'" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-  web:
-    build: .
+  django:
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: django
     restart: always
-    volumes:
-      - .:/app
     ports:
       - "8000:8000"
     env_file:
       - ./.env
     depends_on:
-      - db
+      postgres-dev:
+        condition: service_healthy
+    volumes:
+      - ./src:/app/src
 
 volumes:
-  postgres_data:
+  postgres-dev-data:

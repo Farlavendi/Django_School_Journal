@@ -1,17 +1,29 @@
-FROM python:3.13.1-slim
+FROM python:3.13-slim
 
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
-WORKDIR /src
 
-# export dependencies from poetry
-# poetry export --without-hashes --format=requirements.txt > requirements.txt
-RUN pip install --upgrade pip
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
-COPY . .
+ENV UV_COMPILE_BYTE=1
+ENV UV_LINK_MODE=copy
 
-EXPOSE 8000
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y make && rm -rf /var/lib/apt/lists/*
+
+COPY ./pyproject.toml ./uv.lock ./Makefile /app/
+
+ENV PATH="/app/.venv/bin:$PATH"
+
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    uv sync --frozen --no-install-project --no-dev
+
+COPY ./src /app/src
+
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen --no-dev
 
 CMD ["python", "src/manage.py", "runserver", "0.0.0.0:8000"]
