@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Student, Class, Teacher
+from .models import Marks, Student, Class, SubjectEnum, Teacher
 
 
 class StudentSerializer(serializers.ModelSerializer):
@@ -8,15 +8,16 @@ class StudentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Student
-        fields = ("name", "_class", "user")
+        fields = ("user", "_class")
 
 
 class TeacherSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    subject = serializers.ChoiceField(choices=SubjectEnum.choices())
 
     class Meta:
         model = Teacher
-        fields = ("name", "_class", "user")
+        fields = ( "user", "_class", "subject")
 
 
 class ClassSerializer(serializers.ModelSerializer):
@@ -28,3 +29,16 @@ class ClassSerializer(serializers.ModelSerializer):
     class Meta:
         model = Class
         fields = ("number", "students", "teacher", "user")
+
+class MarksSerializer(serializers.ModelSerializer):
+    maths = serializers.CharField(allow_blank=True)
+    english = serializers.CharField(allow_blank=True)
+    physics = serializers.CharField(allow_blank=True)
+    chemistry = serializers.CharField(allow_blank=True)
+    history = serializers.CharField(allow_blank=True)
+    geography = serializers.CharField(allow_blank=True)
+    literature = serializers.CharField(allow_blank=True)
+
+    class Meta:
+        model = Marks
+        fields = ("maths", "english", "physics", "chemistry", "history", "geography", "literature")
