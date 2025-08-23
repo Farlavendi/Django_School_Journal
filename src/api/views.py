@@ -2,8 +2,8 @@ from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.viewsets import ModelViewSet
 
 from .models import Class, Student, Teacher
-from .permissions import IsSuperUserOrReadOnly, IsOwnerOrReadOnly
-from .serializers import StudentSerializer, ClassSerializer, TeacherSerializer
+from .permissions import IsOwnerOrReadOnly, IsSuperUserOrReadOnly
+from .serializers import ClassSerializer, StudentSerializer, TeacherSerializer
 
 
 class ProtectedViewSet(ModelViewSet):
@@ -25,14 +25,7 @@ class IsOwnerViewSet(ModelViewSet):
     pagination_class = LimitOffsetPagination
 
 
-class StudentsViewSet(ProtectedViewSet):
-    serializer_class = StudentSerializer
 
-    def get_queryset(self):
-        pk = self.kwargs.get("pk")
-        if not pk:
-            return Student.objects.all()
-        return Student.objects.select_related("_class").get(pk=pk)
 
 
 class ClassViewSet(ProtectedViewSet):
