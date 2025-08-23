@@ -8,7 +8,7 @@ from core.models import Base
 from . import managers
 
 
-class RoleEnum(Enum):
+class RoleEnum(str, Enum):
     STUDENT = "STUDENT", _("Student")
     TEACHER = "TEACHER", _("Teacher")
 

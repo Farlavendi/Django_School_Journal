@@ -1,5 +1,6 @@
 from enum import Enum
 
+from django.core.validators import RegexValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -9,7 +10,7 @@ from core.models import Base
 User = settings.AUTH_USER_MODEL
 
 
-class SubjectEnum(Enum):
+class SubjectEnum(str, Enum):
     MATH = "MATH", _("Math")
     ENGLISH = "ENGLISH", _("English")
     PHYSICS = "PHYSICS", _("Physics")
@@ -26,9 +27,15 @@ class SubjectEnum(Enum):
 class Class(Base):
     __tablename__ = "classes"
 
-    number = models.PositiveSmallIntegerField(
+    code = models.CharField(
         unique=True,
         db_index=True,
+        validators=[
+            RegexValidator(
+                regex=r"^\d{1,2}[A-Z]$",
+                message="Code must be 1 or 2 digits followed by a capital letter (e.g., 1A, 12B).",
+            )
+        ],
         verbose_name=_("Class number")
     )
 
@@ -37,7 +44,7 @@ class Class(Base):
         verbose_name_plural = _("Classes")
 
     def __str__(self):
-        return f"Class №{self.number}"
+        return f"Class №{self.code}"
 
 
 class Student(Base):
@@ -95,6 +102,10 @@ class Teacher(Base):
         verbose_name=_("Subject"),
         db_index=True,
     )
+
+    @property
+    def has_subject(self) -> bool:
+        return self.subject is not None
 
     class Meta:
         verbose_name = _("Teacher")
