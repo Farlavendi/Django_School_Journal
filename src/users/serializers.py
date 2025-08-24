@@ -1,6 +1,7 @@
 from django.core.validators import RegexValidator
 from rest_framework import serializers
 
+from api.models import SubjectEnum
 from api.serializers.students_serializers import StudentResponseSerializer
 from api.serializers.teachers_serializers import TeacherResponseSerializer
 from .models import RoleEnum, User
@@ -44,7 +45,7 @@ class BaseUserSerializer(serializers.ModelSerializer):
         max_length=100,
     )
     role = serializers.ChoiceField(
-        choices=RoleEnum.choices(),
+        choices=RoleEnum.choices,
     )
 
     class Meta:
@@ -57,26 +58,49 @@ class BaseUserSerializer(serializers.ModelSerializer):
 
 class StudentUserCreateSerializer(BaseUserSerializer):
     role = serializers.ChoiceField(
-        choices=RoleEnum.choices(),
+        choices=RoleEnum.choices,
         default=RoleEnum.STUDENT,
         read_only=True,
+    )
+    code = serializers.CharField(
+        min_length=2,
+        max_length=3,
+        validators=[
+            RegexValidator(
+                regex=r"^\d{1,2}[A-Z]$",
+                message="Code must be 1 or 2 digits followed by a capital letter (e.g., 1A, 12B).",
+            )
+        ],
     )
 
     class Meta:
         model = User
-        fields = BaseUserSerializer.Meta.fields
+        fields = BaseUserSerializer.Meta.fields + ("code",)
 
 
 class TeacherUserCreateSerializer(BaseUserSerializer):
     role = serializers.ChoiceField(
-        choices=RoleEnum.choices(),
+        choices=RoleEnum.choices,
         default=RoleEnum.TEACHER,
         read_only=True,
+    )
+    code = serializers.CharField(
+        min_length=2,
+        max_length=3,
+        validators=[
+            RegexValidator(
+                regex=r"^\d{1,2}[A-Z]$",
+                message="Code must be 1 or 2 digits followed by a capital letter (e.g., 1A, 12B).",
+            )
+        ],
+    )
+    subject  = serializers.ChoiceField(
+        choices=SubjectEnum.choices,
     )
 
     class Meta:
         model = User
-        fields = BaseUserSerializer.Meta.fields
+        fields = BaseUserSerializer.Meta.fields + ("code", "subject")
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):
@@ -112,7 +136,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
-            "id", "email", "username", "first_name", "second_name",
+            "id", "email", "username", "first_name", "second_name", "last_name",
         )
 
 

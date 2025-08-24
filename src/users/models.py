@@ -1,5 +1,3 @@
-from enum import Enum
-
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -8,13 +6,9 @@ from core.models import Base
 from . import managers
 
 
-class RoleEnum(str, Enum):
+class RoleEnum(models.TextChoices):
     STUDENT = "STUDENT", _("Student")
     TEACHER = "TEACHER", _("Teacher")
-
-    @classmethod
-    def choices(cls):
-        return [member.value for member in cls]
 
 
 class User(Base, AbstractUser):
@@ -32,7 +26,7 @@ class User(Base, AbstractUser):
         verbose_name=_("Username"),
     )
     password = models.CharField(
-        max_length=50,
+        max_length=150,
         verbose_name=_("Password")
     )
     first_name = models.CharField(max_length=100, verbose_name=_("First name"))
@@ -42,7 +36,7 @@ class User(Base, AbstractUser):
 
     role = models.CharField(
         max_length=50,
-        choices=RoleEnum.choices(),
+        choices=RoleEnum.choices,
         default=RoleEnum.STUDENT,
         verbose_name=_("User's role"),
     )

@@ -14,6 +14,7 @@ class StudentCreateSerializer(serializers.ModelSerializer):
                 message="Code must be 1 or 2 digits followed by a capital letter (e.g., 1A, 12B).",
             )
         ],
+        write_only=True,
     )
 
     class Meta:

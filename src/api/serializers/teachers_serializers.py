@@ -5,7 +5,7 @@ from api.models import SubjectEnum, Teacher
 
 
 class TeacherCreateSerializer(serializers.ModelSerializer):
-    subject = serializers.ChoiceField(choices=SubjectEnum.choices())
+    subject = serializers.ChoiceField(choices=SubjectEnum.choices)
     # TODO check maybe move to just a pos arg to have nice drop-list
     code = serializers.CharField(
         min_length=2,
@@ -25,7 +25,7 @@ class TeacherCreateSerializer(serializers.ModelSerializer):
 class TeacherUpdateSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField()
     subject = serializers.ChoiceField(
-        choices=SubjectEnum.choices(),
+        choices=SubjectEnum.choices,
         required=False,
     )
     code = serializers.CharField(

@@ -20,7 +20,7 @@ class ClassCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Class
-        fields = ("code",)
+        fields = ("id", "code",)
 
 
 class ClassListSerializer(serializers.ModelSerializer):
@@ -38,3 +38,20 @@ class ClassDetailSerializer(serializers.ModelSerializer):
         model = Class
         fields = ("id", "code", "students", "teacher",)
         read_only_fields = ("id", "code", "students", "teacher",)
+
+
+class ClassUpdateSerializer(serializers.ModelSerializer):
+    code = serializers.CharField(
+        min_length=2,
+        max_length=3,
+        validators=[
+            RegexValidator(
+                regex=r"^\d{1,2}[A-Z]$",
+                message="Code must be 1 or 2 digits followed by a capital letter (e.g., 1A, 12B).",
+            )
+        ],
+    )
+
+    class Meta:
+        model = Class
+        fields = ("id", "code",)

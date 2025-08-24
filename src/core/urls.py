@@ -33,6 +33,7 @@ urlpatterns = [
     path("api/session_auth/", include("rest_framework.urls")),
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    # TODO: probably better make a separate auth module or at least a sub path of /auth/
 ]
 
 if settings.DEBUG:

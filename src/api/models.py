@@ -1,5 +1,3 @@
-from enum import Enum
-
 from django.core.validators import RegexValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -10,7 +8,7 @@ from core.models import Base
 User = settings.AUTH_USER_MODEL
 
 
-class SubjectEnum(str, Enum):
+class SubjectEnum(models.TextChoices):
     MATH = "MATH", _("Math")
     ENGLISH = "ENGLISH", _("English")
     PHYSICS = "PHYSICS", _("Physics")
@@ -18,10 +16,6 @@ class SubjectEnum(str, Enum):
     HISTORY = "HISTORY", _("History")
     GEOGRAPHY = "GEOGRAPHY", _("Geography")
     LITERATURE = "LITERATURE", _("Literature")
-
-    @classmethod
-    def choices(cls):
-        return [member.value for member in cls]
 
 
 class Class(Base):
@@ -95,7 +89,7 @@ class Teacher(Base):
 
     subject = models.CharField(
         max_length=20,
-        choices=SubjectEnum.choices(),
+        choices=SubjectEnum.choices,
         null=True,
         blank=True,
         default="",
