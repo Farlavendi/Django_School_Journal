@@ -1,60 +1,50 @@
 from django.core.validators import RegexValidator
 from rest_framework import serializers
+
 from api.models import Student
 
 
-class BaseStudentSerializer(serializers.ModelSerializer):
-    class_id = serializers.UUIDField(source="_class.id")
-
-    class Meta:
-        model = Student
-        fields = ("class_id",)
-
-
 class StudentCreateSerializer(serializers.ModelSerializer):
-    number = serializers.CharField(
+    code = serializers.CharField(
         min_length=2,
         max_length=3,
         validators=[
             RegexValidator(
                 regex=r"^\d{1,2}[A-Z]$",
-                message="Class number must be 1 or 2 digits followed by a capital letter (e.g., 1A, 12B).",
+                message="Code must be 1 or 2 digits followed by a capital letter (e.g., 1A, 12B).",
             )
         ],
     )
 
     class Meta:
         model = Student
-        fields = ("_class", "number")
-
-    def validate_number(self, value):
-        # Optional: normalize input to uppercase
-        return value.upper()
+        fields = ("code",)
 
 
 class StudentUpdateSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField()
-    number = serializers.CharField(
+    code = serializers.CharField(
         min_length=2,
         max_length=3,
-        required=False,
         validators=[
             RegexValidator(
                 regex=r"^\d{1,2}[A-Z]$",
-                message="Class number must be 1 or 2 digits followed by a capital letter (e.g., 1A, 12B).",
+                message="Code must be 1 or 2 digits followed by a capital letter (e.g., 1A, 12B).",
             )
         ],
+        required=False,
     )
 
     class Meta:
         model = Student
-        fields = ("id", "number")
+        fields = ("id", "code",)
 
 
 class StudentResponseSerializer(serializers.ModelSerializer):
     user_id = serializers.UUIDField(source="user.id")
-    class_number = serializers.CharField(source="_class.number")
+    class_code = serializers.CharField(source="_class.code")
 
     class Meta:
         model = Student
-        fields = ("id", "user_id", "class_number")
+        fields = ("id", "user_id", "class_code")
+        read_only_fields = ("id", "user_id", "class_code")
