@@ -144,6 +144,10 @@ class UserResponseSerializer(serializers.ModelSerializer):
     student = StudentResponseSerializer(read_only=True, many=False)
     teacher = TeacherResponseSerializer(read_only=True, many=False)
 
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        return {k: v for k, v in data.items() if v is not None}
+
     class Meta:
         model = User
         fields = (
