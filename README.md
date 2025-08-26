@@ -4,7 +4,7 @@
 
 ---
 ## Installation and local deploy
-Follow these simple steps to local deploy.
+Follow these simple steps to locally deploy.
 * Clone the repo:
 ```
 git@github.com:DenisBichuk/Django_School_Journal.git
