@@ -26,8 +26,8 @@ class Class(Base):
         db_index=True,
         validators=[
             RegexValidator(
-                regex=r"^\d{1,2}[A-Z]$",
-                message="Code must be 1 or 2 digits followed by a capital letter (e.g., 1A, 12B).",
+                regex=r"^[1-9]\d?[A-Z]$",
+                message="Code must be 1 or 2 digits (not starting with 0) followed by a capital letter (e.g., 1A, 12B).",
             )
         ],
         verbose_name=_("Class number")
