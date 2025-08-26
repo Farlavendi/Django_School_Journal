@@ -51,8 +51,7 @@ class Student(Base):
         db_column="user_id",
         verbose_name=_("User"),
     )
-
-    _class = models.OneToOneField(
+    _class = models.ForeignKey(
         to=Class,
         on_delete=models.CASCADE,
         related_name="students",
@@ -111,7 +110,7 @@ class Teacher(Base):
 
 
 class Marks(Base):
-    student = models.ForeignKey(
+    student = models.OneToOneField(
         to=Student,
         on_delete=models.CASCADE,
         related_name="marks",
