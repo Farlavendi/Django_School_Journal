@@ -2,7 +2,7 @@ from django.core.validators import RegexValidator
 from rest_framework import serializers
 
 from api.models import Class
-from api.serializers.students_serializers import StudentResponseSerializer
+from api.serializers.students_serializers import StudentListSerializer
 from api.serializers.teachers_serializers import TeacherResponseSerializer
 
 
@@ -31,8 +31,8 @@ class ClassListSerializer(serializers.ModelSerializer):
 
 
 class ClassDetailSerializer(serializers.ModelSerializer):
-    students = StudentResponseSerializer(many=True, read_only=True)
-    teacher = TeacherResponseSerializer(many=False, read_only=True)
+    students = StudentListSerializer(many=True, read_only=True)
+    teacher = TeacherResponseSerializer(read_only=True)
 
     class Meta:
         model = Class

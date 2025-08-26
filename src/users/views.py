@@ -1,4 +1,3 @@
-from django.contrib.auth.hashers import make_password
 from django.db import transaction
 from rest_framework import mixins
 from rest_framework.decorators import action
@@ -6,8 +5,8 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
-from api.models import Class, Student, Teacher
-from .models import RoleEnum, User
+from api.models import Class, Marks, Student, Teacher
+from .models import User
 from .serializers import (
     StudentUserCreateSerializer,
     TeacherUserCreateSerializer,
@@ -37,7 +36,7 @@ class UserViewSet(
 
     def get_serializer_class(self):
         return self.serializer_action_classes.get(self.action, self.serializer_class)
-    
+
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         serializer = self.get_serializer(queryset, many=True)
@@ -49,25 +48,19 @@ class UserViewSet(
         serializer.is_valid(raise_exception=True)
 
         with transaction.atomic():
-            user = User.objects.create(
-                email=serializer.validated_data["email"],
-                username=serializer.validated_data["username"],
-                role=RoleEnum.STUDENT,
-                password=make_password(serializer.validated_data["password"]),
-                first_name=serializer.validated_data["first_name"],
-                second_name=serializer.validated_data.get("second_name"),
-                last_name=serializer.validated_data["last_name"],
-            )
+            user = User.objects.create(**serializer.validated_data["user"])
 
             _class = get_object_or_404(
                 Class,
-                serializer.validated_data["code"]
+                code=serializer.validated_data["code"]
             )
 
-            Student.objects.create(
+            student = Student.objects.create(
                 user=user,
                 _class=_class,
             )
+
+            Marks.objects.create(student=student)
 
         return Response(
             data=UserResponseSerializer(user).data,
@@ -80,19 +73,11 @@ class UserViewSet(
         serializer.is_valid(raise_exception=True)
 
         with transaction.atomic():
-            user = User.objects.create(
-                email=serializer.validated_data["email"],
-                username=serializer.validated_data["username"],
-                role=RoleEnum.STUDENT,
-                password=make_password(serializer.validated_data["password"]),
-                first_name=serializer.validated_data["first_name"],
-                second_name=serializer.validated_data.get("second_name"),
-                last_name=serializer.validated_data["last_name"],
-            )
+            user = User.objects.create(**serializer.validated_data["user"])
 
             _class = get_object_or_404(
                 Class,
-                serializer.validated_data["code"]
+                code=serializer.validated_data["code"]
             )
 
             Teacher.objects.create(

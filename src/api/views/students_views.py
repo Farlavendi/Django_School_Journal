@@ -4,7 +4,8 @@ from rest_framework.viewsets import GenericViewSet
 
 from api.models import Student
 from api.serializers.students_serializers import (
-    StudentResponseSerializer,
+    StudentDetailSerializer,
+    StudentListSerializer,
     StudentUpdateSerializer,
 )
 
@@ -20,8 +21,8 @@ class StudentsViewSet(
     permission_classes = []
 
     serializer_action_classes = {
-        "list": StudentResponseSerializer,
-        "retrieve": StudentResponseSerializer,
+        "list": StudentListSerializer,
+        "retrieve": StudentDetailSerializer,
         "update": StudentUpdateSerializer,
         "partial_update": StudentUpdateSerializer,
     }

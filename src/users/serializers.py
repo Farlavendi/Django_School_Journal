@@ -2,7 +2,7 @@ from django.core.validators import RegexValidator
 from rest_framework import serializers
 
 from api.models import SubjectEnum
-from api.serializers.students_serializers import StudentResponseSerializer
+from api.serializers.students_serializers import StudentListSerializer
 from api.serializers.teachers_serializers import TeacherResponseSerializer
 from .models import RoleEnum, User
 
@@ -46,6 +46,7 @@ class BaseUserSerializer(serializers.ModelSerializer):
     )
     role = serializers.ChoiceField(
         choices=RoleEnum.choices,
+        read_only=True,
     )
 
     class Meta:
@@ -56,7 +57,8 @@ class BaseUserSerializer(serializers.ModelSerializer):
         )
 
 
-class StudentUserCreateSerializer(BaseUserSerializer):
+class StudentUserCreateSerializer(serializers.ModelSerializer):
+    user = BaseUserSerializer()
     role = serializers.ChoiceField(
         choices=RoleEnum.choices,
         default=RoleEnum.STUDENT,
@@ -75,14 +77,16 @@ class StudentUserCreateSerializer(BaseUserSerializer):
 
     class Meta:
         model = User
-        fields = BaseUserSerializer.Meta.fields + ("code",)
+        fields = ("user", "role", "code",)
 
 
-class TeacherUserCreateSerializer(BaseUserSerializer):
+class TeacherUserCreateSerializer(serializers.ModelSerializer):
+    user = BaseUserSerializer()
     role = serializers.ChoiceField(
         choices=RoleEnum.choices,
         default=RoleEnum.TEACHER,
         read_only=True,
+
     )
     code = serializers.CharField(
         min_length=2,
@@ -100,7 +104,7 @@ class TeacherUserCreateSerializer(BaseUserSerializer):
 
     class Meta:
         model = User
-        fields = BaseUserSerializer.Meta.fields + ("code", "subject")
+        fields = ("user", "role", "code", "subject",)
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):
@@ -141,7 +145,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
 
 
 class UserResponseSerializer(serializers.ModelSerializer):
-    student = StudentResponseSerializer(read_only=True, many=False)
+    student = StudentListSerializer(read_only=True, many=False)
     teacher = TeacherResponseSerializer(read_only=True, many=False)
 
     def to_representation(self, instance):
