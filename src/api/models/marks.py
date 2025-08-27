@@ -4,7 +4,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from core import settings
-from . import AbstractBaseModel, Student
+from . import AbstractBaseModel
 
 User = settings.AUTH_USER_MODEL
 
@@ -19,7 +19,7 @@ class Marks(AbstractBaseModel):
         db_index=True,
     )
     student = models.OneToOneField(
-        to=Student,
+        to="Student",
         on_delete=models.CASCADE,
         related_name="marks",
         db_column="student_id",

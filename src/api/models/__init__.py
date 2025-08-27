@@ -1,6 +1,7 @@
-__all__ = ["AbstractBaseModel", "Class", "Student", "Teacher"]
+__all__ = ["AbstractBaseModel", "Class", "Marks", "Student", "SubjectEnum", "Teacher"]
 
 from .base import AbstractBaseModel
 from .classes import Class
+from .marks import Marks
 from .students import Student
-from .teachers import Teacher
+from .teachers import SubjectEnum, Teacher
