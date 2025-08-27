@@ -6,7 +6,6 @@ from django.utils.translation import gettext_lazy as _
 from core import settings
 from . import AbstractBaseModel, Class
 
-
 User = settings.AUTH_USER_MODEL
 
 

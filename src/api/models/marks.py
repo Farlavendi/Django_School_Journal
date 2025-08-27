@@ -3,9 +3,8 @@ import uuid
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from . import Student, AbstractBaseModel
 from core import settings
-
+from . import AbstractBaseModel, Student
 
 User = settings.AUTH_USER_MODEL
 
