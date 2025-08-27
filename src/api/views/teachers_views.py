@@ -15,7 +15,6 @@ class TeacherViewSet(
     mixins.ListModelMixin,
     GenericViewSet
 ):
-    queryset = Teacher.objects.all()
     permission_classes = []
 
     serializer_action_classes = {
@@ -27,3 +26,7 @@ class TeacherViewSet(
 
     def get_serializer_class(self):
         return self.serializer_action_classes.get(self.action, self.serializer_class)
+
+    def get_queryset(self):
+        queryset = Teacher.objects.all()
+        return queryset

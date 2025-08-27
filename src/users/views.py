@@ -22,7 +22,6 @@ class UserViewSet(
     mixins.ListModelMixin,
     GenericViewSet
 ):
-    queryset = User.objects.all()
     permission_classes = []
 
     serializer_action_classes = {
@@ -37,10 +36,9 @@ class UserViewSet(
     def get_serializer_class(self):
         return self.serializer_action_classes.get(self.action, self.serializer_class)
 
-    def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
+    def get_queryset(self):
+        queryset = User.objects.all()
+        return queryset
 
     @action(detail=False, methods=["post"], url_path="register/student")
     def create_student(self, request):
