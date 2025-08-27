@@ -1,8 +1,10 @@
+import uuid
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from core.models import Base
+from api.models import AbstractBaseModel
 from . import managers
 
 
@@ -11,9 +13,15 @@ class RoleEnum(models.TextChoices):
     TEACHER = "TEACHER", _("Teacher")
 
 
-class User(Base, AbstractUser):
+class User(AbstractBaseModel, AbstractUser):
     __tablename__ = "users"
 
+    id = models.UUIDField(
+        primary_key=True,
+        editable=False,
+        default=uuid.uuid4,
+        db_index=True,
+    )
     email = models.EmailField(unique=True, db_index=True, verbose_name=_("Email address"))
     username = models.CharField(
         max_length=50,
