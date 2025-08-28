@@ -4,10 +4,6 @@ from django.views.generic import RedirectView
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
 
 from core import settings
 
@@ -31,8 +27,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include("api.urls", namespace="api")),
     path("api/session_auth/", include("rest_framework.urls")),
-    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
-    path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     # TODO: probably better make a separate auth module or at least a sub path of /auth/
 ]
 

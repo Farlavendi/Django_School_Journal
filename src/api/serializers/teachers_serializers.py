@@ -23,7 +23,6 @@ class TeacherCreateSerializer(serializers.ModelSerializer):
 
 
 class TeacherUpdateSerializer(serializers.ModelSerializer):
-    id = serializers.UUIDField()
     subject = serializers.ChoiceField(
         choices=SubjectEnum.choices,
         required=False,

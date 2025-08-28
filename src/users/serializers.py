@@ -8,7 +8,6 @@ from .models import RoleEnum, User
 
 
 class BaseUserSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField()
     username = serializers.CharField(
         min_length=3,
         max_length=50,
