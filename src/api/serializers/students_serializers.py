@@ -1,7 +1,7 @@
 from django.core.validators import RegexValidator
 from rest_framework import serializers
 
-from api.models import Student
+from api.models import Class, Student
 from api.serializers.marks_serializers import MarksSerializer
 
 
@@ -45,19 +45,13 @@ class StudentDetailSerializer(serializers.ModelSerializer):
 
 
 class StudentUpdateSerializer(serializers.ModelSerializer):
-    id = serializers.UUIDField()
-    code = serializers.CharField(
-        min_length=2,
-        max_length=3,
-        validators=[
-            RegexValidator(
-                regex=r"^[1-9]\d?[A-Z]$",
-                message="Code must be 1 or 2 digits (not starting with 0) followed by a capital letter (e.g., 1A, 12B).",
-            )
-        ],
+    class_code = serializers.SlugRelatedField(
+        slug_field="code",
+        queryset=Class.objects.all(),
+        source="_class",
         required=False,
     )
 
     class Meta:
         model = Student
-        fields = ("id", "code",)
+        fields = ("class_code",)
