@@ -1,7 +1,7 @@
 from django.core.validators import RegexValidator
 from rest_framework import serializers
 
-from api.models import SubjectEnum, Teacher
+from api.models import Class, SubjectEnum, Teacher
 
 
 class TeacherCreateSerializer(serializers.ModelSerializer):
@@ -27,21 +27,16 @@ class TeacherUpdateSerializer(serializers.ModelSerializer):
         choices=SubjectEnum.choices,
         required=False,
     )
-    code = serializers.CharField(
-        min_length=2,
-        max_length=3,
-        validators=[
-            RegexValidator(
-                regex=r"^[1-9]\d?[A-Z]$",
-                message="Code must be 1 or 2 digits (not starting with 0) followed by a capital letter (e.g., 1A, 12B).",
-            )
-        ],
+    code = serializers.SlugRelatedField(
+        slug_field="code",
+        queryset=Class.objects.all(),
+        source="_class",
         required=False,
     )
 
     class Meta:
         model = Teacher
-        fields = ("id", "subject", "code", )
+        fields = ("id", "subject", "code",)
 
 
 class TeacherResponseSerializer(serializers.ModelSerializer):
